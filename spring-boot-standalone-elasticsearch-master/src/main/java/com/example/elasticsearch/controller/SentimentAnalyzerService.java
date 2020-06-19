@@ -1,4 +1,4 @@
-  package com.elasticsearch.controller;
+  package com.example.elasticsearch.controller;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
@@ -11,8 +11,8 @@ import twitter4j.QueryResult;
 
 import org.springframework.stereotype.Service;
 
-import com.elasticsearch.controller.*;
-import com.elasticsearch.type.SentimentType;
+import com.example.elasticsearch.controller.*;
+import com.example.elasticsearch.type.SentimentType;
 
 import java.util.Properties;
 

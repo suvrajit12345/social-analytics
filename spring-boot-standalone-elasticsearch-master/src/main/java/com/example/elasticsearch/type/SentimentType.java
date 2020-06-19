@@ -1,4 +1,4 @@
-package com.elasticsearch.type;
+package com.example.elasticsearch.type;
 
 public enum SentimentType {
 
