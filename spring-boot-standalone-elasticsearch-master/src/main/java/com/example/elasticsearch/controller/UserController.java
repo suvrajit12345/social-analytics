@@ -202,7 +202,7 @@ return esData;
          response = client.prepareSearch("twitter")
                 .setTypes("users")
                 .setQuery(QueryBuilders.matchPhraseQuery("date", "value"))
-                 .setQuery(QueryBuilders.rangeQuery("date").gte("value1").lte("value2"))
+                 .setQuery(QueryBuilders.rangeQuery("date").gte("value").lte("value"))
                  .setSize(10)
                  .setFrom(i * 10).execute().actionGet();
                  
@@ -231,7 +231,7 @@ return esData;
          response = client.prepareSearch("twitter")
                 .setTypes("users")
                 .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value"))
-                		                           .must(QueryBuilders.rangeQuery("date").gte("value1").lte("value2")))
+                		                           .must(QueryBuilders.rangeQuery("date").gte("value").lte("value")))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
