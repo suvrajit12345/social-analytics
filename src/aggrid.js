@@ -2647,11 +2647,11 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
       modules: AllModules,
      columnDefs: [
           
-          { headerName: "date", field: "date",sortable:true,filter: true },
-          { headerName: "name", field: "name" ,sortable:true,filter: true},
-          { headerName: "location", field: "location",sortable:true,filter: true },
-          { headerName: "text", field: "text",sortable:true,filter: true },
-          { headerName: "score", field: "score" ,sortable:true,filter: true}],
+          { headerName: "date", field: "date",width: 150,sortable:true,filter: true },
+          { headerName: "name", field: "name" ,width: 150,sortable:true,filter: true},
+          { headerName: "location", field: "location",width: 150,sortable:true,filter: true },
+          { headerName: "text", field: "text",width: 1000,sortable:true,filter: true},
+          { headerName: "score", field: "score" ,width: 150,sortable:true,filter: true}],
 
         rowData:x
      
@@ -2670,7 +2670,7 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
   render() {
     return (
    this.returndata(),
-  <div style={{ width: '100%', height: '100%' }}>
+  <div >
         <div className="example-wrapper">
           <div className="example-header">
             <label>
@@ -2679,12 +2679,8 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
           </div>
 
           <div
-            id="myGrid"
-            style={{
-              height: '100%',
-              width: '100%',
-            }}
-            className="ag-theme-alpine" style={{height: '800px', width: '1000px'}}
+            
+            className="ag-theme-alpine" style={{height: '500px', width: '1600px'}}
           >
             <AgGridReact
               modules={this.state.modules}
