@@ -172,7 +172,7 @@ public class UserController {
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "USA")))
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value")))
                  .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -201,8 +201,8 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.matchPhraseQuery("date", "2020-06-16"))
-                 .setQuery(QueryBuilders.rangeQuery("date").gte("2020-06-18").lte("2020-06-19"))
+                .setQuery(QueryBuilders.matchPhraseQuery("date", "value"))
+                 .setQuery(QueryBuilders.rangeQuery("date").gte("value").lte("value"))
                  .setSize(10)
                  .setFrom(i * 10).execute().actionGet();
                  
@@ -230,8 +230,8 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "NY"))
-                		                           .must(QueryBuilders.rangeQuery("date").gte("2020-06-17").lte("2020-06-18")))
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value"))
+                		                           .must(QueryBuilders.rangeQuery("date").gte("value").lte("value")))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
