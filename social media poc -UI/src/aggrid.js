@@ -2687,6 +2687,8 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
               columnDefs={this.state.columnDefs}
               rowData={this.state.rowData}
                onGridReady={this.onGridReady}
+               pagination={true}
+               paginationAutoPageSize={true}
             />
           </div>
         </div>
