@@ -8,10 +8,10 @@ function Router()
 {
   return (
             <div>
-            <nav className="navbar navbar-expand-sm bg-primary navbar-dark abc5">
+            <nav className="navbar navbar-expand-sm bg-primary navbar-dark d-flex abc5">
             <ul className="navbar-nav">
-            <li className="nav-item active"><Link  class="nav-link" to="/"  >Map</Link></li>
-            <li className="nav-item active"><Link  class="nav-link" to="/aggrid" >Ag-grid</Link></li>
+            <li className="nav-item active"><Link  class="nav-link" to="/"  >Home</Link></li>
+            <li className="nav-item active"><Link  class="nav-link" to="/aggrid" >Details</Link></li>
             </ul>
             </nav>
             <Switch>

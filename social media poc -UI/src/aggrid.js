@@ -2650,7 +2650,7 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
           { headerName: "date", field: "date",width: 150,sortable:true,filter: true },
           { headerName: "name", field: "name" ,width: 150,sortable:true,filter: true},
           { headerName: "location", field: "location",width: 150,sortable:true,filter: true },
-          { headerName: "text", field: "text",width: 1000,sortable:true,filter: true},
+          { headerName: "text", field: "text",width: 970,sortable:true,filter: true},
           { headerName: "score", field: "score" ,width: 150,sortable:true,filter: true}],
 
         rowData:x
@@ -2671,6 +2671,7 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
     return (
    this.returndata(),
   <div >
+      <div class="container-fluid">
         <div className="example-wrapper">
           <div className="example-header">
             <label>
@@ -2680,8 +2681,9 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
 
           <div
             
-            className="ag-theme-alpine" style={{height: '500px', width: '1600px'}}
+            className="ag-theme-alpine" style={{height: '500px',width:'100%'}}
           >
+              <div style={{height: '100%',width:'inherit'}}>
             <AgGridReact
               modules={this.state.modules}
               columnDefs={this.state.columnDefs}
@@ -2690,8 +2692,10 @@ for(let i=0; i<Data[0].hits.hits.length;i++)
                pagination={true}
                paginationAutoPageSize={true}
             />
+            </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

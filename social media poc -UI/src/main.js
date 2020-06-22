@@ -69,8 +69,8 @@ function leafLetMap() {
     }
   }
   return (
-    <div>
-      <Map className="map" center={[37.8, -96]} zoom={4}>
+    <div class="container p-3 my-3  text-white">
+      <Map style={{height: '400px',width:'100%'}} center={[37.8, -96]} zoom={4}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

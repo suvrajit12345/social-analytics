@@ -11,17 +11,19 @@ function Verizon()
 {
   return (
     <div>
-    
-      <nav className="navbar abc1">
-        <a href="#" className="navbarbrand abc2">
-          <img src={theImage} width="140" height="55"></img>
+    <div class="container-fluid ">
+      <nav className="navbar d-flex justify-content-start" >
+        <a href="#" className="navbarbrand " style={{width:"90px",height:"40px"}}>
+          <img src={theImage} class="img-fluid"></img>
           </a>
-          <p className="abc3">beta v1.0</p>
-          <div className="navbarnav abc4">
+          
+          <div className="navbarnav ml-auto mr-auto abc4">
             <b>Social Media POC</b></div>
             </nav>
+            </div>
             <hr/> 
-            <Router></Router>   
+            <Router></Router> 
+              
     </div>
   )
 }
