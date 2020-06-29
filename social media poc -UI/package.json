@@ -1,0 +1,47 @@
+{
+  "name": "first",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ag-grid-community/all-modules": "^23.2.0",
+    "@ag-grid-community/react": "^23.2.0",
+    "@ag-grid-enterprise/all-modules": "^23.2.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "ag-grid-community": "^23.2.0",
+    "ag-grid-enterprise": "^23.2.0",
+    "ag-grid-react": "^23.2.0",
+    "bootstrap": "^4.5.0",
+    "file-saver": "^2.0.2",
+    "leaflet": "^1.6.0",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
+    "react-dom": "^16.13.1",
+    "react-leaflet": "^2.7.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "xlsx": "^0.16.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
