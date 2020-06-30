@@ -2,6 +2,7 @@ package com.example.elasticsearch.controller;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import org.springframework.web.bind.MissingPathVariableException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +123,7 @@ public class UserController {
 		Twitter twitter = tf.getInstance();
 		
 		Query query = new Query("#verizon");
-		query.setCount(100);
+		query.setCount(50);
 		QueryResult result = twitter.search(query);
 		for(Status status :result.getTweets()) {
 		// status.getText();
@@ -163,7 +164,7 @@ public class UserController {
   //fetching data from es with help of location
     
     @GetMapping("/fetch/location/{value}")
-    public List<Map<String, Object>> searchByLocationName(@PathVariable String value,String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByLocationName(String twitter, String users) throws TwitterException , IOException {
     	 
     	int scrollSize = 10;
     	
@@ -192,7 +193,7 @@ return esData;
     //fetching data from es with help of date.
 
     @GetMapping("/fetch/date/{value}")
-    public List<Map<String, Object>> searchByDate(@PathVariable String value,String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByDate(String twitter, String users) throws TwitterException , IOException {
    
     int scrollSize = 10;
    
@@ -203,7 +204,7 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.matchPhraseQuery("date", "Value"))
+                .setQuery(QueryBuilders.matchPhraseQuery("date", "value"))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -220,7 +221,7 @@ return esData;
     //fetching data from es using location & date range
     
     @GetMapping("/fetch/location/date/{value}")
-    public List<Map<String, Object>> searchByDate1(@PathVariable String value,String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByDate1(String twitter, String users) throws TwitterException , IOException {
    
     int scrollSize = 10;
    
@@ -231,8 +232,8 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "Value"))
-                		                           .must(QueryBuilders.rangeQuery("date").gte("Value1").lte("Value2")))
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value"))
+                		                           .must(QueryBuilders.rangeQuery("date").gte("value1").lte("value2")))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
