@@ -6,8 +6,8 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 //import Data from './aggrid.json'; 
-
-
+//import { DateTimeRenderer } from './cellRenderers/DateTimeRenderer';
+//import { formatDate } from '@ag-grid/common';
 
 
 
@@ -19,7 +19,12 @@ class Aggrid extends Component {
 
         this.state = {
             columnDefs: [
-                { headerName: "Date", field: "date" },
+                { headerName: "Date", field: "date",
+                cellRenderer: (data) => {
+                    return data.value ? (new Date(data.value)).toLocaleDateString() : '';
+               }
+            },
+
                 {
                     headerName: "SentimentScore",
                     field: "sentimentScore",
@@ -47,11 +52,12 @@ class Aggrid extends Component {
                     }
                 },
                 { headerName: "Name", field: "name" },
-                { headerName: "Location", field: "location" },
+                { headerName: "Location", field: "location"},
                 { headerName: "Text", field: "text" },
                 { headerName: "SNumber", field: "SNumber" },
                 { headerName: "Hashtag", field: "hashtag" },
-            ],
+            ]
+            ,
             rowData: null
         }
     }
@@ -81,7 +87,8 @@ class Aggrid extends Component {
 
                 <AgGridReact
                     columnDefs={this.state.columnDefs}
-                    rowData={this.state.rowData}>
+                    rowData={this.state.rowData}
+                         >
 
                 </AgGridReact>
 

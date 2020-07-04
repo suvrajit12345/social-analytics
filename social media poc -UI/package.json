@@ -12,6 +12,7 @@
     "ag-grid-community": "^23.2.0",
     "ag-grid-enterprise": "^23.2.0",
     "ag-grid-react": "^23.2.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "file-saver": "^2.0.2",
     "leaflet": "^1.6.0",

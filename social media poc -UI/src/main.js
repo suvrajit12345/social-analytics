@@ -5,7 +5,7 @@ import { statesData } from "./data/data.js"
 import { searchState, searchStateCode } from "./assets/fetchState"
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
-import ElasticSearchData from './elasticSearch';
+
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
