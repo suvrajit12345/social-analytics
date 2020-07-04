@@ -1,15 +1,21 @@
 package com.example.elasticsearch.controller;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 
 import org.springframework.web.bind.MissingPathVariableException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import org.apache.lucene.queryparser.flexible.core.builders.QueryBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -22,8 +28,12 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.search.MatchQuery.Type;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchProperties;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,6 +120,7 @@ public class UserController {
  //saving  verizon data from twitter along with sentiment score in es
    
     @GetMapping("/save/verizon")
+    @CrossOrigin(origins="http://localhost:3000")
     public  String SentimentAnalyzerService()  throws TwitterException , IOException  {
    
        
@@ -164,6 +175,7 @@ public class UserController {
   //fetching data from es with help of location
     
     @GetMapping("/fetch/location/{value}")
+    @CrossOrigin(origins="http://localhost:3000")
     public List<Map<String, Object>> searchByLocationName(String twitter, String users) throws TwitterException , IOException {
     	 
     	int scrollSize = 10;
@@ -175,14 +187,14 @@ public class UserController {
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value")))
-                 .setSize(10)
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value")))                
+                .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
           for(SearchHit hit : response.getHits()){
              esData.add(hit.getSource());
          }
-         
+          
          i++;
          }
 return esData;
@@ -193,6 +205,7 @@ return esData;
     //fetching data from es with help of date.
 
     @GetMapping("/fetch/date/{value}")
+    @CrossOrigin(origins="http://localhost:3000")
     public List<Map<String, Object>> searchByDate(String twitter, String users) throws TwitterException , IOException {
    
     int scrollSize = 10;
@@ -221,6 +234,7 @@ return esData;
     //fetching data from es using location & date range
     
     @GetMapping("/fetch/location/date/{value}")
+    @CrossOrigin(origins="http://localhost:3000")
     public List<Map<String, Object>> searchByDate1(String twitter, String users) throws TwitterException , IOException {
    
     int scrollSize = 10;
@@ -248,6 +262,8 @@ return esData;
 return esData;
 
     }
+    
+    
     
    
  //replying to a particular tweet//
@@ -302,6 +318,7 @@ return esData;
  // saving  AT&T data from twitter along with sentiment score in es  
  
     @GetMapping("/save/AT&T")
+    @CrossOrigin(origins="http://localhost:3000")
   public  String SentimentAnalyzerService1()  throws TwitterException , IOException  {
 
    
@@ -356,6 +373,7 @@ return esData;
   //saving  TMobile data from twitter along with sentiment score in es  
   
     @GetMapping("/save/TMobile")
+    @CrossOrigin(origins="http://localhost:3000")
    public  String SentimentAnalyzerService2()  throws TwitterException , IOException  {
 
 
@@ -405,11 +423,8 @@ return esData;
 	return "Hey!!we will fetch the sentiments scores for you"; 
 
 }
-}  
     
-   
-    
-    
+}
     
     
 
