@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.lucene.queryparser.flexible.core.builders.QueryBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
@@ -39,6 +41,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.elasticsearch.model.User;
@@ -172,11 +175,12 @@ public class UserController {
     }
     
     
-  //fetching data from es with help of location
     
-    @GetMapping("/fetch/location/{value}")
+//fetch all datas from es
+    
+    @GetMapping("/fetch/all")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByLocationName(String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByAll() throws TwitterException , IOException {
     	 
     	int scrollSize = 10;
     	
@@ -187,7 +191,39 @@ public class UserController {
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value")))                
+                .setQuery(QueryBuilders.matchAllQuery())
+                              
+                .setSize(10)
+                .setFrom(i * 10).execute().actionGet();
+                 
+          for(SearchHit hit : response.getHits()){
+             esData.add(hit.getSource());
+         }
+          
+         i++;
+         }
+return esData;
+
+    }
+
+    
+    
+  //fetching data from es with help of location
+    
+    @GetMapping("/fetch/location/{value}")
+    @CrossOrigin(origins="http://localhost:3000")
+    public List<Map<String, Object>> searchByLocationName(@PathVariable("value") String value) throws TwitterException , IOException {
+    	 
+    	int scrollSize = 10;
+    	
+    	 List<Map<String,Object>> esData = new ArrayList<Map<String,Object>>();
+    	
+    	 SearchResponse response = null;
+         int i = 0;
+         while( response == null || response.getHits().hits().length != 0){
+         response = client.prepareSearch("twitter")
+                .setTypes("users")
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value)))                
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -206,7 +242,7 @@ return esData;
 
     @GetMapping("/fetch/date/{value}")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByDate(String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByDate(@PathVariable("value") String value) throws TwitterException , IOException {
    
     int scrollSize = 10;
    
@@ -217,7 +253,7 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.matchPhraseQuery("date", "value"))
+                .setQuery(QueryBuilders.matchPhraseQuery("date", value))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -233,9 +269,9 @@ return esData;
     
     //fetching data from es using location & date range
     
-    @GetMapping("/fetch/location/date/{value}")
+    @GetMapping("/fetch/location/date/{value}/{value1)/{value2}")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByDate1(String twitter, String users) throws TwitterException , IOException {
+    public  List<Map<String, Object>>  searchByDate1( @PathVariable("value") String value,@PathVariable("value1") String value1,@PathVariable("value2")String value2) throws TwitterException , IOException {
    
     int scrollSize = 10;
    
@@ -246,8 +282,8 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value"))
-                		                           .must(QueryBuilders.rangeQuery("date").gte("value1").lte("value2")))
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value))
+                		                           .must(QueryBuilders.rangeQuery("date").gte(value1).lte(value2)))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -423,11 +459,5 @@ return esData;
 	return "Hey!!we will fetch the sentiments scores for you"; 
 
 }
-    
 }
-    
-    
-
-
-
 
