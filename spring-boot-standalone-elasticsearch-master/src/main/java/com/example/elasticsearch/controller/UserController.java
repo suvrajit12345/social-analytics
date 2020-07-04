@@ -212,7 +212,8 @@ return esData;
     
     @GetMapping("/fetch/location/{value}")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByLocationName(@PathVariable("value") String value) throws TwitterException , IOException {    	int scrollSize = 10;
+    public List<Map<String, Object>> searchByLocationName(@PathVariable("value") String value) throws TwitterException , IOException {    	
+    	int scrollSize = 10;
     	
     	 List<Map<String,Object>> esData = new ArrayList<Map<String,Object>>();
     	
