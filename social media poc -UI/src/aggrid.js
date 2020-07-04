@@ -25,11 +25,11 @@ class Aggrid extends Component {
                     field: "sentimentScore",
                     cellStyle: function(params) {
                         if (params.value==1) {
-                            return {color: 'black', backgroundColor: 'red'};
+                            return {color: 'black', backgroundColor: 'pink'};
                         } else if (params.value==2) {
                             return {color: 'black', backgroundColor: '#fed8b1'};
                         } else if (params.value==3) {
-                            return {color: 'black', backgroundColor: 'green'};
+                            return {color: 'black', backgroundColor: 'lightgreen'};
                         } else {
                             return {color: 'black', backgroundColor: 'white'};
                         }
