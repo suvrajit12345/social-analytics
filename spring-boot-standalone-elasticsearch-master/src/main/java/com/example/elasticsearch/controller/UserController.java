@@ -212,13 +212,7 @@ return esData;
     
     @GetMapping("/fetch/location/{value}")
     @CrossOrigin(origins="http://localhost:3000")
-<<<<<<< HEAD
-    public List<Map<String, Object>> searchByLocationName(@PathVariable("value") String value) throws TwitterException , IOException {
-=======
-    public List<Map<String, Object>> searchByLocationName( @PathVariable("value") String value ) throws TwitterException , IOException {
->>>>>>> 37e6bee7267a6c6d87d14c0c9387d02f88529fa4
-    	 
-    	int scrollSize = 10;
+    public List<Map<String, Object>> searchByLocationName(@PathVariable("value") String value) throws TwitterException , IOException {    	int scrollSize = 10;
     	
     	 List<Map<String,Object>> esData = new ArrayList<Map<String,Object>>();
     	
@@ -227,11 +221,11 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-<<<<<<< HEAD
+
                 .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value)))                
-=======
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value )))                
->>>>>>> 37e6bee7267a6c6d87d14c0c9387d02f88529fa4
+
+                              
+
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
