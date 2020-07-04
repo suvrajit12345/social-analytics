@@ -3,6 +3,8 @@ import {Link,Route,Switch} from 'react-router-dom';
  
 import Aggrid from './aggrid';
 import Mapping from './main';
+
+
   
 function Router()
 {
@@ -12,11 +14,15 @@ function Router()
             <ul className="navbar-nav">
             <li className="nav-item active"><Link  class="nav-link" to="/"  >Home</Link></li>
             <li className="nav-item active"><Link  class="nav-link" to="/aggrid" >Details</Link></li>
+            
+           
             </ul>
             </nav>
             <Switch>
             <Route exact path="/" component={Mapping}></Route>
             <Route exact path="/aggrid" component={Aggrid}></Route>
+           
+            
             </Switch>
             </div>
     
