@@ -222,11 +222,7 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-
                 .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value)))                
-
-                              
-
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -290,9 +286,7 @@ return esData;
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
-  
-       
-         for(SearchHit hit : response.getHits()){
+  for(SearchHit hit : response.getHits()){
              esData.add(hit.getSource());
          }
          
