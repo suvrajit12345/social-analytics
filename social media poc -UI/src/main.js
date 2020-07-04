@@ -77,7 +77,7 @@ export default class Mapping extends React.Component {
       day = '0' + day;
 
     let today = [year, month, day].join('-');
-    axios.get('http://localhost:8102/rest/users/fetch/date/2020-06-29').then(res => {
+    axios.get('http://localhost:8102/rest/users/fetch/date/2020-07-03').then(res => {
       this.setState({ tD: res.data });
       let sn = [];
       for (let i = 0; i < this.state.tD.length; i++) {
