@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, Tooltip, GeoJSON, TileLayer, DivOverlay } from "react-leaflet";
 import { statesData } from "./data/data.js"
 //import { tD } from "./data/index"
-import { searchState } from "./assets/fetchState"
+import { searchState, searchStateCode } from "./assets/fetchState"
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
 import ElasticSearchData from './elasticSearch';
@@ -25,10 +25,13 @@ export default class Mapping extends React.Component {
   style(feature) {
     let d = feature.properties.sentiment;
     let gc = () => {
-      return d > 1.5 ? 'red' :
+      if(d){
+        return d > 1.5 ? 'green' :
         d > 1 ? 'orange' : 
-        d = 1 ? 'green' :
+        d = 1 ? 'red' : 
         'grey'
+      } else return 'grey'
+      
     }
     return {
       fillColor: gc(),
@@ -44,16 +47,18 @@ export default class Mapping extends React.Component {
     // let goDetail = (feature) =>{
     //   window.location = "/aggrid?name=" + feature.properties.name;
     // }
-    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "State Sentiment: " + feature.properties.sentiment)
-    // layer.on({
-    //   'dblclick': this.clicked(feature)
-    // });
+    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "State Sentiment: " + feature.properties.sentiment.toFixed(2))
+    layer.on({
+      'dblclick': this.clicked
+    });
     
   }
 
-  // clicked=(feature)=> {
-  //   console.log(feature.properties.name)
-  // }
+  clicked=(feature)=> {
+    localStorage.setItem("stateCode",searchStateCode(feature.sourceTarget.feature.properties.name))
+    //localStorage.setItem("stateCode",feature.sourceTarget.feature.properties.name)
+    window.location = "/aggrid"
+  }
   tooltipFn(e) {
     console.log(e);
   }
@@ -108,14 +113,14 @@ export default class Mapping extends React.Component {
   render() {
     return this.state.mapLoad
       ? <div class="container p-3 my-3  text-white">
-        <Map style={{ height: '400px', width: '100%' }} center={[37.8, -96]} zoom={4} >
+        <Map style={{ height: '400px', width: '100%' }} doubleClickZoom={false} center={[37.8, -96]} zoom={4} >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <GeoJSON
             data={statesData}
-            onEachFeature={this.onEachFeature.bind(this)}
+            onEachFeature={this.onEachFeature}
             style={this.style}
           >
             {/* <Tooltip direction="auto" opacity={1}>{statesData}</Tooltip> */}

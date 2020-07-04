@@ -1,5 +1,5 @@
 import { us } from './us';
-var stateName;
+var stateName, stateCode;
 export var searchState = function(x)
 {
 	var u = us;
@@ -11,6 +11,19 @@ export var searchState = function(x)
 	else s(x,u)
 	if(stateName) return stateName;
 	else return null;
+}
+export var searchStateCode = function(x)
+{
+	var u = us;
+	sC(x,u)
+	if(stateCode) return stateCode;
+	else return null;
+}
+function sC(d,u){
+	for(let i=0;i<u.length;i++)
+	{
+		if(d.toUpperCase()==u[i].name.toUpperCase()) stateCode=u[i].Code;
+	}
 }
 function s(d,u){
 	for(let i=0;i<u.length;i++)
