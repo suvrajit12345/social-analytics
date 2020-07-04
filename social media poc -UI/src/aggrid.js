@@ -63,17 +63,17 @@ class Aggrid extends Component {
     }
     componentWillMount() {
         let stateSelected = localStorage.getItem("stateCode")
-        fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
+        // fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
+        //         .catch(err => console.log(err));
+        if (stateSelected) {
+            fetch('http://localhost:8102/rest/users/fetch/location/' + stateSelected).then(res => res.json()).then(rowData => this.setState({ rowData }))
                 .catch(err => console.log(err));
-        // if (stateSelected) {
-        //     fetch('http://localhost:8102/rest/users/fetch/location/' + stateSelected).then(res => res.json()).then(rowData => this.setState({ rowData }))
-        //         .catch(err => console.log(err));
-        // } else {
-        //     localStorage.setItem("stateCode",'USA')
-        //     stateSelected = localStorage.getItem("stateCode")
-        //     fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
-        //         .catch(err => console.log(err));
-        // }
+        } else {
+            localStorage.setItem("stateCode",'USA')
+            stateSelected = localStorage.getItem("stateCode")
+            fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
+                .catch(err => console.log(err));
+        }
 
     }
 

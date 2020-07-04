@@ -134,7 +134,7 @@ public class UserController {
 		Twitter twitter = tf.getInstance();
 		
 		Query query = new Query("#verizon");
-		query.setCount(50);
+		query.setCount(100);
 		QueryResult result = twitter.search(query);
 		for(Status status :result.getTweets()) {
 		// status.getText();
@@ -176,7 +176,7 @@ public class UserController {
     
     @GetMapping("/fetch/location/{value}")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByLocationName(String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByLocationName( @PathVariable("value") String value ) throws TwitterException , IOException {
     	 
     	int scrollSize = 10;
     	
@@ -187,7 +187,7 @@ public class UserController {
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", "value")))                
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("location", value )))                
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -206,7 +206,7 @@ return esData;
 
     @GetMapping("/fetch/date/{value}")
     @CrossOrigin(origins="http://localhost:3000")
-    public List<Map<String, Object>> searchByDate(String twitter, String users) throws TwitterException , IOException {
+    public List<Map<String, Object>> searchByDate(@PathVariable("value") String value) throws TwitterException , IOException {
    
     int scrollSize = 10;
    
@@ -217,7 +217,7 @@ return esData;
          while( response == null || response.getHits().hits().length != 0){
          response = client.prepareSearch("twitter")
                 .setTypes("users")
-                .setQuery(QueryBuilders.matchPhraseQuery("date", "value"))
+                .setQuery(QueryBuilders.matchPhraseQuery("date", value))
                 .setSize(10)
                 .setFrom(i * 10).execute().actionGet();
                  
@@ -302,7 +302,7 @@ return esData;
                         .field("name", status.getUser().getScreenName())
                         .field("location", status.getUser().getLocation())
                         .field("text", status.getText())
-                        .field("score", service.analyse(status.getText()))
+                        .field("score", SentimentAnalyzerService.analyse(status.getText()))
                         .endObject()
                 )
                 .get();
