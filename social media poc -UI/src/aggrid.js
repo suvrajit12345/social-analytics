@@ -27,47 +27,37 @@ class Aggrid extends Component {
                     }
                 },
 
-                {
-                    headerName: "User Sentiment",
-                    field: "sentimentScore",
-                    cellStyle: function (params) {
-                        if (params.value == 1) {
-                            return { color: 'black', backgroundColor: 'pink' };
-                        } else if (params.value == 2) {
-                            return { color: 'black', backgroundColor: '#fed8b1' };
-                        } else if (params.value == 3) {
-                            return { color: 'black', backgroundColor: 'lightgreen' };
-                        } else {
-                            return { color: 'black', backgroundColor: 'white' };
-                        }
-                    },
-                    cellRenderer: function (params) {
-                        if (params.value == 1) {
-                            return "Negative Review";
-                        } else if (params.value == 2) {
-                            return "Neutral Review";
-                        } else if (params.value == 3) {
-                            return "Positive Review";
-                        } else {
-                            return { color: 'black', backgroundColor: 'white' };
-                        }
-                    }
-                },
-                {
-                    headerName: "Sentiment Score",
-                    field: "sentimentScore",
-                },
-                { headerName: "Name", field: "name" },
+                
+                { headerName: " User Name", field: "name" },
                 { headerName: "Location", field: "location" },
                 {
-                    headerName: "Text",
+                    headerName: "Tweet",
                     field: "text",
                     tooltipField: 'text',
                     width: 350,
                     cellStyle: { 'white-space': 'normal', 'min-height': '40' },
                     autoHeight: true
                 },
-                { headerName: "Hashtag", field: "hashtag" },
+                
+                {
+                    headerName: "User Sentiment",
+                    field: "userSentiment",
+                    cellStyle: function (params) {
+                        if (params.value == "Negative Review") {
+                            return { color: 'black', backgroundColor: 'pink' };
+                        } else if (params.value == "Neutral Review") {
+                            return { color: 'black', backgroundColor: '#fed8b1' };
+                        } else if (params.value == "Positive Review") {
+                            return { color: 'black', backgroundColor: 'lightgreen' };
+                        } else {
+                            return { color: 'black', backgroundColor: 'white' };
+                        }
+                    },
+                },
+                {
+                    headerName: "Sentiment Score",
+                    field: "sentimentScore",
+                },
             ]
             ,
             rowData: null,
@@ -86,13 +76,25 @@ class Aggrid extends Component {
         // fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
         //         .catch(err => console.log(err));
         if (stateSelected) {
-            fetch('http://localhost:8102/rest/users/fetch/location/' + stateSelected).then(res => res.json()).then(rowData => this.setState({ rowData }))
-                .catch(err => console.log(err));
+            fetch('http://localhost:8102/rest/users/fetch/location/' + stateSelected).then(res => res.json()).then(rowData => {
+                for(let x=0;x<rowData.length;x++){
+                    if(rowData[x].sentimentScore == 1)rowData[x]["userSentiment"] = "Negative Review"
+                    if(rowData[x].sentimentScore == 2)rowData[x]["userSentiment"] = "Neutral Review"
+                    if(rowData[x].sentimentScore == 3)rowData[x]["userSentiment"] = "Positive Review"
+                }
+                this.setState({ rowData })
+            }).catch(err => console.log(err));
         } else {
             localStorage.setItem("stateCode", 'USA')
             stateSelected = localStorage.getItem("stateCode")
-            fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => this.setState({ rowData }))
-                .catch(err => console.log(err));
+            fetch('http://localhost:8102/rest/users/fetch/location/USA').then(res => res.json()).then(rowData => {
+                for(let x=0;x<rowData.length;x++){
+                    if(rowData[x].sentimentScore == 1)rowData[x]["userSentiment"] = "Negative Review"
+                    if(rowData[x].sentimentScore == 2)rowData[x]["userSentiment"] = "Neutral Review"
+                    if(rowData[x].sentimentScore == 3)rowData[x]["userSentiment"] = "Positive Review"
+                }
+                this.setState({ rowData })
+            }).catch(err => console.log(err));
         }
     }
 

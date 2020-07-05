@@ -23,6 +23,7 @@ export default class Mapping extends React.Component {
   }
 
   style(feature) {
+    console.log(feature.properties)
     let d = feature.properties.sentiment;
     // var result = {};
     // d.forEach(function (x) {
@@ -31,11 +32,14 @@ export default class Mapping extends React.Component {
     // d = result;
     let gc = () => {
       if (d[1] && d[2] && d[3]) {
-        if (d[1] > d[2]) if (d[1] > d[3]) {
-          return 'red';
-        } else if (d[1] < d[2]) if (d[3] < d[2]) {
+        debugger
+        if (d[1] == d[2] == d[3]) {
           return 'orange';
-        } else if (d[1] < d[3]) if (d[2] < d[3]) {
+        } else if ((d[1] > d[2]) && (d[1] > d[3])) {
+          return 'red';
+        } else if ((d[1] < d[2]) && (d[3] < d[2])) {
+          return 'orange';
+        } else if ((d[1] < d[3]) && (d[2] < d[3]) ){
           return 'green';
         }
       } else if ((d[1] && d[2]) || (d[1] && d[3]) || (d[2] && d[3])) {
@@ -64,7 +68,7 @@ export default class Mapping extends React.Component {
     // let goDetail = (feature) =>{
     //   window.location = "/aggrid?name=" + feature.properties.name;
     // }
-    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "Total Number of Post: " + feature.properties.count)
+    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "Total Number of Post: " + feature.properties.count.length)
     layer.on({
       'dblclick': this.clicked
     });
@@ -106,11 +110,11 @@ export default class Mapping extends React.Component {
       }
 
       for (let j = 0; j < statesData.features.length; j++) {
-        let x = 0;
+        statesData.features[j].properties["count"] = [];
         statesData.features[j].properties["sentiment"] = [];
         for (let y = 0; y < sn.length; y++) {
           if (sn[y].statename == statesData.features[j].properties.name) {
-            statesData.features[j].properties["count"] = x++;
+            statesData.features[j].properties["count"].push("1");
             statesData.features[j].properties["sentiment"].push(sn[y].sentimentScore);
           }
         }
