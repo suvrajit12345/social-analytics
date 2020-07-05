@@ -5,7 +5,7 @@ import { statesData } from "./data/data.js"
 import { searchState, searchStateCode } from "./assets/fetchState"
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
-
+import './App.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -24,14 +24,31 @@ export default class Mapping extends React.Component {
 
   style(feature) {
     let d = feature.properties.sentiment;
+    // var result = {};
+    // d.forEach(function (x) {
+    //   result[x] = (result[x] || 0) + 1;
+    // })
+    // d = result;
     let gc = () => {
-      if(d){
-        return d > 1.5 ? 'green' :
-        d > 1 ? 'orange' : 
-        d = 1 ? 'red' : 
-        'grey'
-      } else return 'grey'
-      
+      if (d[1] && d[2] && d[3]) {
+        if (d[1] > d[2]) if (d[1] > d[3]) {
+          return 'red';
+        } else if (d[1] < d[2]) if (d[3] < d[2]) {
+          return 'orange';
+        } else if (d[1] < d[3]) if (d[2] < d[3]) {
+          return 'green';
+        }
+      } else if ((d[1] && d[2]) || (d[1] && d[3]) || (d[2] && d[3])) {
+        if ((d[1] > d[2]) || (d[1] > d[3])) {
+          return 'red'
+        } else if ((d[1] < d[2]) || (d[1] < d[3]) || (d[2] > d[3])) {
+          return 'orange';
+        } else return 'green';
+      }
+      else if (d[1]) return 'red';
+      else if (d[2]) return 'orange';
+      else if (d[3]) return 'green';
+      else return 'grey'
     }
     return {
       fillColor: gc(),
@@ -42,20 +59,20 @@ export default class Mapping extends React.Component {
       fillOpacity: 0.7
     };
   }
-  
-  onEachFeature = (feature, layer) =>{
+
+  onEachFeature = (feature, layer) => {
     // let goDetail = (feature) =>{
     //   window.location = "/aggrid?name=" + feature.properties.name;
     // }
-    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "State Sentiment: " + feature.properties.sentiment.toFixed(2))
+    layer.on({ onmouseover: this.clicked }).bindPopup("State Name: " + feature.properties.name + "</br>" + "Total Number of Post: " + feature.properties.count)
     layer.on({
       'dblclick': this.clicked
     });
-    
+
   }
 
-  clicked=(feature)=> {
-    localStorage.setItem("stateCode",searchStateCode(feature.sourceTarget.feature.properties.name))
+  clicked = (feature) => {
+    localStorage.setItem("stateCode", searchStateCode(feature.sourceTarget.feature.properties.name))
     //localStorage.setItem("stateCode",feature.sourceTarget.feature.properties.name)
     window.location = "/aggrid"
   }
@@ -77,17 +94,17 @@ export default class Mapping extends React.Component {
       day = '0' + day;
 
     let today = [year, month, day].join('-');
-    axios.get('http://localhost:8102/rest/users/fetch/date/2020-07-03').then(res => {
+    axios.get('http://localhost:8102/rest/users/fetch/all').then(res => {
       this.setState({ tD: res.data });
       let sn = [];
       for (let i = 0; i < this.state.tD.length; i++) {
         if (this.state.tD[i].location) {
           if (searchState(this.state.tD[i].location)) {
-            sn.push({statename: searchState(this.state.tD[i].location), sentimentScore: this.state.tD[i].sentimentScore});
-
+            sn.push({ statename: searchState(this.state.tD[i].location), sentimentScore: this.state.tD[i].sentimentScore })
           }
         }
       }
+
       for (let j = 0; j < statesData.features.length; j++) {
         let x = 0;
         statesData.features[j].properties["sentiment"] = [];
@@ -97,15 +114,16 @@ export default class Mapping extends React.Component {
             statesData.features[j].properties["sentiment"].push(sn[y].sentimentScore);
           }
         }
-        var sum=0;
-        if(statesData.features[j].properties["sentiment"]){
-          for(var f=0;f<statesData.features[j].properties["sentiment"].length;f++){
-            sum+=Number(statesData.features[j].properties["sentiment"][f]);
-          }
-          var avg = sum/statesData.features[j].properties["sentiment"].length;
-          statesData.features[j].properties["sentiment"] = avg;
+        //var sum=0;
+        if (statesData.features[j].properties["sentiment"]) {
+          var result = {};
+          statesData.features[j].properties["sentiment"].forEach(function (x) {
+            result[x] = (result[x] || 0) + 1;
+          })
+          statesData.features[j].properties["sentiment"] = result;
         }
       }
+      console.log(statesData)
       this.setState({ mapLoad: true });
     });
   }
@@ -127,7 +145,12 @@ export default class Mapping extends React.Component {
           </GeoJSON>
 
         </Map>
-
+        <div style={{color:'black'}}>
+          <h5>Scale</h5>
+          <div class="d-flex align-items-center"><span class="postiveScale mr-1"></span><span>Positve Sentiment</span></div>
+          <div class="d-flex align-items-center"><span class="nutralScale mr-1"></span><span>Nutral Sentiment</span></div>
+          <div class="d-flex align-items-center"><span class="negativeScale mr-1"></span><span>Negative Sentiment</span></div>
+        </div>
       </div>
       : null;
   }

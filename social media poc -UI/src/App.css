@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.postiveScale
+  {
+    width: 50px;
+    height: 20px;
+    background-color: lightgreen;
+  }
+  .nutralScale
+  {
+    width: 50px;
+    height: 20px;
+    background-color: #fed8b1;
+  }
+  .negativeScale
+  {
+    width: 50px;
+    height: 20px;
+    background-color: pink;
+  }
