@@ -152,7 +152,7 @@ export default class Mapping extends React.Component {
         <div style={{color:'black'}}>
           <h5>Scale</h5>
           <div class="d-flex align-items-center"><span class="postiveScale mr-1"></span><span>Positve Sentiment</span></div>
-          <div class="d-flex align-items-center"><span class="nutralScale mr-1"></span><span>Nutral Sentiment</span></div>
+          <div class="d-flex align-items-center"><span class="neutralScale mr-1"></span><span>Neutral Sentiment</span></div>
           <div class="d-flex align-items-center"><span class="negativeScale mr-1"></span><span>Negative Sentiment</span></div>
         </div>
       </div>
