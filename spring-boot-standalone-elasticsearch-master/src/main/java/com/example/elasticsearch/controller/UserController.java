@@ -301,7 +301,7 @@ return esData;
    
  //replying to a particular tweet//
 
-    @GetMapping("/pull/twitter")
+    @GetMapping("/pull/twitter-auto-bot")
     public String pullTwitterData() throws TwitterException, IOException {
 	
 	
@@ -316,7 +316,7 @@ return esData;
 	Twitter twitter = tf.getInstance();
 	
 	System.out.println("_________________________-----------------------------");
-	Query query = new Query("@imSP_samal");
+	Query query = new Query("@support_xyz");
 	query.setCount(1); // pull one record
     QueryResult result = twitter.search(query);
     for (Status status : result.getTweets()) {
@@ -324,7 +324,7 @@ return esData;
         
         //reply to comment 
         Status status1 = twitter.showStatus( status.getId() );
-        Status reply = twitter.updateStatus(new StatusUpdate(" @" + status1.getUser().getScreenName() + " "+ "Sorry for inconvenience caused to you. Our Verizon Team is looking into it. Please find the ticket No #2020058BAG").inReplyToStatusId(status1.getId()));
+        Status reply = twitter.updateStatus(new StatusUpdate(" @" + status1.getUser().getScreenName() + " "+ "Sorry for inconvenience caused to you. Our Team is looking into it. Please find the ticket No #2020058BAG").inReplyToStatusId(status1.getId()));
         
         
         // save data to ES
@@ -344,7 +344,7 @@ return esData;
     }
     
    
-	return  "Auto Reply Complated";
+	return  "Auto Reply has completed";
 }
 
     
